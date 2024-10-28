@@ -84,7 +84,7 @@
     {
         for (Entity* entity : collisions) {
             if (entity->getType() == CastleMain) {
-                targetCastle->takeDamage(1);
+                targetCastle->takeDamage(15);
                 isDead = true;
                 return false;
             }

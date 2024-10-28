@@ -38,8 +38,6 @@ void Controller::setupEntities()
 
     int numBlocksX = 20;
     int numBlocksY = 10; 
-    // Add castle at the end of the path
-    world.addCastle(50, 160, 152, 148, 100);
     // First horizontal lane
     for (int i = 0; i < numBlocksX; i++)
     {
@@ -183,8 +181,7 @@ void Controller::gameLoop()
             }
         }
     
-
-        
+      
         if (tickCount % spawnInterval == 0) { //spawning enemies
             world.spawnEnemies(world.getCastle());
             spawnInterval -= 3;
@@ -197,8 +194,11 @@ void Controller::gameLoop()
             }
 
         }
-        
-        if (!gameWon) {
+        bool gameLost = false;
+        if (world.getCastle()->getHP() <= 0) {
+            gameLost = true;
+        }
+        if (!gameWon && !gameLost) {
             world.tick();
             tickCount++;
         }
@@ -224,6 +224,10 @@ void Controller::gameLoop()
         DrawText("Add Instant Kill Tile (I) - Cost: 7 Gold", 250, 150, 20, BLACK);
         if (gameWon) {
             DrawText("You won!", screenWidth / 2 - MeasureText("You won!", 40) / 2, screenHeight / 2 - 20, 40, WHITE);
+            DrawText("Press ESC to exit.", screenWidth / 2 - MeasureText("Press Q to exit.", 20) / 2, screenHeight / 2 + 10, 20, BLACK);
+        }
+        if (gameLost) {
+            DrawText("You Lost :(", screenWidth / 2 - MeasureText("You Lost!", 40) / 2, screenHeight / 2 - 20, 40, WHITE);
             DrawText("Press ESC to exit.", screenWidth / 2 - MeasureText("Press Q to exit.", 20) / 2, screenHeight / 2 + 10, 20, BLACK);
         }
 
